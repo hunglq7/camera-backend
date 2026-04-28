@@ -36,10 +36,7 @@ def add_danh_muc_may_xuc(
 
 
 @router.get("/", response_model=List[DanhMucMayXucResponse])
-def list_danh_muc_may_xuc(
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
-):
+def list_danh_muc_may_xuc(db: Session = Depends(get_db)):
     return get_danh_muc_may_xucs(db)
 
 

@@ -30,10 +30,7 @@ def add_danh_muc_may_cao(
     return create_danh_muc_may_cao(db, payload)
 
 @router.get("/", response_model=List[DanhMucMayCaoResponse])
-def list_danh_muc_may_cao(
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
-):
+def list_danh_muc_may_cao(db: Session = Depends(get_db)):
     return get_danh_muc_may_caos(db)
 
 @router.get("/{record_id}", response_model=DanhMucMayCaoResponse)
