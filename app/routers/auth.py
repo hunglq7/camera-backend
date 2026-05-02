@@ -26,7 +26,7 @@ def register(user_register: UserRegister, db: Session = Depends(get_db)):
     """Register a new user and return tokens"""
     user = register_user(db, user_register)
     
-    access_token = create_access_token(user.id)
+    access_token = create_access_token(user)
     refresh_token = create_refresh_token(user.id)
     
     return TokenResponse(
@@ -42,7 +42,7 @@ def login(user_login: UserLogin, db: Session = Depends(get_db)):
     """Login user and return tokens"""
     user = login_user(db, user_login)
     
-    access_token = create_access_token(user.id)
+    access_token = create_access_token(user)
     refresh_token = create_refresh_token(user.id)
     
     return TokenResponse(
@@ -60,7 +60,7 @@ def refresh_token(request: RefreshTokenRequest, db: Session = Depends(get_db)):
         user_id = verify_token(request.refresh_token)
         user = get_user_by_id(db, user_id)
         
-        access_token = create_access_token(user.id)
+        access_token = create_access_token(user)
         refresh_token = create_refresh_token(user.id)
         
         return TokenResponse(
@@ -74,6 +74,12 @@ def refresh_token(request: RefreshTokenRequest, db: Session = Depends(get_db)):
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid refresh token"
         )
+
+
+@router.post("/logout", status_code=status.HTTP_200_OK)
+def logout():
+    """Logout endpoint for client-side token clearing"""
+    return {"detail": "Successfully logged out"}
 
 
 def get_token_from_header(authorization: str = None):

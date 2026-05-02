@@ -1,21 +1,36 @@
 import os
 import sys
+import subprocess
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
-if PROJECT_ROOT not in sys.path:
-    sys.path.insert(0, PROJECT_ROOT)
 
-from core.database import Base, engine
-import models.camera  # noqa: F401
-import models.danh_muc_may_xuc  # noqa: F401
-import models.tong_hop_camera  # noqa: F401
-import models.danh_muc_may_cao  # noqa: F401
 
 def run_migrations():
-    Base.metadata.create_all(bind=engine)
-    print("Migration completed. Tables:", list(Base.metadata.tables.keys()))
+    """
+    Run Alembic migrations.
+    
+    Alembic is a database migration tool that tracks schema changes.
+    This replaces the previous metadata.create_all() approach.
+    """
+    print("Running Alembic migrations...")
+    
+    # Change to project root directory
+    os.chdir(PROJECT_ROOT)
+    
+    # Run alembic upgrade head
+    result = subprocess.run(
+        [sys.executable, "-m", "alembic", "upgrade", "head"],
+        capture_output=False
+    )
+    
+    if result.returncode == 0:
+        print("✓ Migration completed successfully!")
+    else:
+        print("✗ Migration failed!")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
     run_migrations()
+

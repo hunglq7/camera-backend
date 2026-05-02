@@ -22,18 +22,20 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
 
 
-def create_access_token(user_id: int, expires_delta: timedelta = None) -> str:
+def create_access_token(user: User, expires_delta: timedelta = None) -> str:
     """Create JWT access token"""
     if expires_delta is None:
         expires_delta = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     
     expire = datetime.now(timezone.utc) + expires_delta
+    roles = user.roles.split(",") if user.roles else ["user"]
     to_encode = {
-        "sub": str(user_id), 
+        "sub": str(user.id), 
         "exp": expire,
-        "username": "admin",  # Temporary username
-        "email": "admin@example.com",  # Temporary email
-        "roles": ["admin"]  # Add roles for frontend access control
+        "username": user.username,
+        "email": user.email,
+        "avatar": user.avatar or "",
+        "roles": roles
     }
     
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
@@ -88,7 +90,8 @@ def register_user(db: Session, user_register: UserRegister) -> User:
     new_user = User(
         username=user_register.username,
         email=user_register.email,
-        hashed_password=hash_password(user_register.password)
+        hashed_password=hash_password(user_register.password),
+        roles=",".join(user_register.roles)  # Store as comma-separated string
     )
     
     db.add(new_user)

@@ -27,6 +27,8 @@ services:
     restart: always
     ports:
       - "8000:8000"
+    volumes:
+      - ./app/assets:/app/assets
     environment:
       - PYTHONPATH=/app
       - DB_HOST=mysql
