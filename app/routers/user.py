@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, status, Body
 from sqlalchemy.orm import Session
 from core.database import get_db
 from core.security import get_current_user
-from schemas.auth import UserRegister, UserResponse
+from schemas.auth import AdminUserRegister, UserResponse
 from schemas.user import UserListResponse, UserUpdate, BulkDeleteRequest
 from services.user_service import get_users, create_user, update_user, delete_user, delete_users
 from models.user import User
@@ -28,7 +28,7 @@ def list_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), _
 
 
 @router.post("/", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
-def create_user_item(user_register: UserRegister, db: Session = Depends(get_db), _: User = Depends(require_admin)):
+def create_user_item(user_register: AdminUserRegister, db: Session = Depends(get_db), _: User = Depends(require_admin)):
     return create_user(db, user_register)
 
 

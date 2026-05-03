@@ -21,7 +21,13 @@ def ensure_database_exists():
 
 # ensure_database_exists()  # Commented out to avoid connection issues during startup
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_pre_ping=True, pool_recycle=3600)
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL,
+    pool_size=20,  # Tăng từ 5 (mặc định) lên 20
+    max_overflow=40,  # Tăng từ 10 (mặc định) lên 40
+    pool_pre_ping=True,
+    pool_recycle=3600
+)
 SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 
 class Base(DeclarativeBase):

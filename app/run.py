@@ -25,24 +25,10 @@ if __name__ == "__main__":
         
         os.chdir(project_root)
         
-        # Step 1: Auto-generate migration if there are model changes
-        print("\nStep 1: Detecting model changes...", flush=True)
-        revision_result = subprocess.run(
-            [sys.executable, "-m", "alembic", "-c", str(alembic_ini), "revision", "--autogenerate", "-m", "auto_migration"],
-            cwd=str(project_root),
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True
-        )
-        
-        if revision_result.returncode == 0:
-            print("Migration file generated (if changes detected)", flush=True)
-            print(revision_result.stdout, flush=True)
-        else:
-            print(f"Note: {revision_result.stderr}", flush=True)
-        
-        # Step 2: Apply migrations
-        print("\nStep 2: Applying migrations...", flush=True)
+        # Step 1: Apply migrations
+        # Note: Do not auto-generate migrations during app startup.
+        # Migrations should be created manually with alembic revision --autogenerate.
+        print("\nStep 1: Applying migrations...", flush=True)
         result = subprocess.run(
             [sys.executable, "-m", "alembic", "-c", str(alembic_ini), "upgrade", "head"],
             cwd=str(project_root),

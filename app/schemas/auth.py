@@ -7,6 +7,9 @@ class UserRegister(BaseModel):
     username: str
     email: str
     password: str
+
+
+class AdminUserRegister(UserRegister):
     roles: List[str] = ["user"]
 
 

@@ -16,7 +16,7 @@ from services.danh_muc_don_vi_service import (
     get_danh_muc_don_vis,
     update_danh_muc_don_vi,
     delete_danh_muc_don_vi,
-   delete_many_danh_muc_don_vi
+    delete_many_danh_muc_don_vi
 )
 
 router = APIRouter(prefix="/danh-muc-don-vi", tags=["Danh Muc Don Vi"])

@@ -2,6 +2,7 @@ from typing import List, Optional
 from sqlalchemy.orm import Session
 from models.user import User
 from schemas.auth import UserRegister
+from schemas.auth import AdminUserRegister
 from schemas.user import UserUpdate
 from services.auth_service import hash_password
 from fastapi import HTTPException, status
@@ -14,7 +15,7 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
     return users, total
 
 
-def create_user(db: Session, user_register: UserRegister) -> User:
+def create_user(db: Session, user_register: AdminUserRegister) -> User:
     existing_user = db.query(User).filter(
         (User.username == user_register.username) | (User.email == user_register.email)
     ).first()

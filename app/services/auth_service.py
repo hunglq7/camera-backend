@@ -86,12 +86,13 @@ def register_user(db: Session, user_register: UserRegister) -> User:
             detail="Username or email already exists"
         )
     
-    # Create new user
+    # Create new user with default role 'user'.
+    # Public registration should never assign elevated roles.
     new_user = User(
         username=user_register.username,
         email=user_register.email,
         hashed_password=hash_password(user_register.password),
-        roles=",".join(user_register.roles)  # Store as comma-separated string
+        roles="user"
     )
     
     db.add(new_user)

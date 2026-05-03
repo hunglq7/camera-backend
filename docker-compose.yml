@@ -29,6 +29,8 @@ services:
       - "8000:8000"
     volumes:
       - ./app/assets:/app/assets
+      - ./alembic:/app/alembic
+      - ./alembic.ini:/app/alembic.ini
     environment:
       - PYTHONPATH=/app
       - DB_HOST=mysql

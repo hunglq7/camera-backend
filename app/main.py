@@ -9,7 +9,9 @@ from routers.user import router as user_router
 from routers.danh_muc_may_cao import router as danh_muc_may_cao
 from routers.danh_muc_dien_thoai import router as danh_muc_dien_thoai
 from routers.danh_muc_don_vi import router as danh_muc_don_vi
+from routers.danh_muc_camera import router as danh_muc_camera
 from routers.upload import router as upload_router
+from routers.vi_tri_lap_dat import router as vi_tri_lap_dat
 import os
 
 # Note: Database tables are created via Alembic migrations (see run.py)
@@ -33,6 +35,8 @@ app.include_router(danh_muc_may_cao)
 app.include_router(upload_router)
 app.include_router(danh_muc_dien_thoai)
 app.include_router(danh_muc_don_vi)
+app.include_router(danh_muc_camera)
+app.include_router(vi_tri_lap_dat)
 # Mount static files
 # Get the project root directory
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

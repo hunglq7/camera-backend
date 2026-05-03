@@ -23,6 +23,8 @@ import models.danh_muc_may_cao  # noqa: F401
 import models.user  # noqa: F401
 import models.danh_muc_dien_thoai  # noqa: F401
 import models.danh_muc_don_vi  # noqa: F401
+import models.danh_muc_camera  # noqa: F401
+import models.vi_tri_lap_dat  # noqa: F401
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
